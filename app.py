@@ -1,5 +1,4 @@
 import streamlit as st
-from YOLO import *
 from PIL import  Image
 import tempfile
 
