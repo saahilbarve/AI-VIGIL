@@ -1,7 +1,6 @@
 import streamlit as st
 from PIL import  Image
 import tempfile
-import cv2
 import streamlit as st
 
 
