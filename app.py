@@ -2,11 +2,7 @@ import streamlit as st
 from PIL import  Image
 import tempfile
 import cv2
-import torch
-import numpy as np
-import math
 import streamlit as st
-import time
 
 
 def main():
