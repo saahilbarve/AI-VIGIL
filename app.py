@@ -1,11 +1,17 @@
 import streamlit as st
 from PIL import  Image
 import tempfile
+from ultralytics import YOLO
+import cv2
+import torch
+import numpy as np
+import math
+import streamlit as st
+import time
 
 
 def main():
-
-    st.title("Accident detection using YOLO")
+    st.title("Object Detection with YOLO-NAS")
     st.sidebar.title("Settings")
     st.sidebar.subheader("Parameters")
     st.markdown(
@@ -23,10 +29,10 @@ def main():
         unsafe_allow_html=True,
     )
 
-    app_mode = st.sidebar.selectbox('Choose the App Mode', ['About App', 'Run on Image', 'Run on Video/WebCam'])
+    app_mode = st.sidebar.selectbox('Choose the App Mode', ['About App', 'Run on Image', 'Run on Video'])
 
     if app_mode == 'About App':
-        st.markdown('In this project we am using **YOLO-NAS** to do Accident Detection on Images and Videos and we are using **StreamLit** to create a Graphical User Interface ')
+        st.markdown('In this project we are using **YOLO-NAS** to do Object Detection on Images and Videos and we are using **StreamLit** to create a Graphical User Interface ')
         st.markdown(
             """
             <style>
@@ -46,12 +52,12 @@ def main():
                     '<img src="https://www.linkpicture.com/q/tlogo_1.jpg" alt="Centered Image">'
                     '</div>', unsafe_allow_html=True)
         st.markdown('''
-                    # About \n
-                    AI based Security Camera By \n
-                    SAAHIL BARVE, AKSHAY KESARKAR,HEET GALA \n
-                    This research introduces an AI-based security camera system using YOLO for real-time accident and suspicious activity detection.\n
-                    It integrates Google Firebase for secure access control and employs Streamlit for user-friendly interaction, offering a robust solution for enhanced security and safety.
-                    ''')
+                            # About \n
+                            AI based Security Camera By \n
+                            **SAAHIL BARVE, AKSHAY KESARKAR,HEET GALA** \n
+                            This research introduces an AI-based security camera system using **YOLO-NAS** for real-time accident and suspicious activity detection.\n
+                            It integrates Google Firebase for secure access control and employs Streamlit for user-friendly interaction, offering a robust solution for enhanced security and safety.
+                            ''')
 
     elif app_mode == 'Run on Image':
         st.sidebar.markdown('---')
@@ -73,7 +79,6 @@ def main():
         )
         img_file_buffer = st.sidebar.file_uploader("Upload an Image", type=["jpg", "jpeg", "png"])
 
-        DEMO_IMAGE = 'Image\image3.png'
 
         if img_file_buffer is not None:
             img = cv2.imdecode(np.fromstring(img_file_buffer.read(), np.uint8), 1)
@@ -84,6 +89,7 @@ def main():
         st.sidebar.text('Orignal Image')
         st.sidebar.image(image)
         load_yolonas_process_each_image(img, confidence, st)
+
 
     elif app_mode == 'Run on Video':
         st.markdown(
@@ -105,7 +111,6 @@ def main():
         st.sidebar.markdown('---')
         video_file_buffer = st.sidebar.file_uploader("Upload a Video", type = ["mp4", "avi", "mov", "asf"])
 
-        DEMO_VIDEO = 'Video/bikes.mp4'
 
         tffile = tempfile.NamedTemporaryFile(suffix= '.mp4', delete=False)
 
