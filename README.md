@@ -1,7 +1,4 @@
 # AI-VIGIL
-Creating a thorough GitHub README is essential for ensuring that users, developers, and collaborators understand your project. Below is a template for a GitHub README for your AI-Based Security Camera project:
-
----
 
 # AI-Based Security Camera System
 
